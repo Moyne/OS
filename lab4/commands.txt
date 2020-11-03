@@ -1,0 +1,6 @@
+echo Hi my name is Mohamed Amine Hamdi end
+ls -a end
+pwd end
+ls -laR end
+date end
+ls end
