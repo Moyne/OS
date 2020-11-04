@@ -3,16 +3,15 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <stdio.h>
-#define DIMFILE 80
-#define NPARAM 5
+#define DIM 80
 int main(int argc,char** argv){
     if(argc!=2) exit(0);
     FILE* fp;
     pid_t pid;
     fp=fopen(argv[1],"r");
-    char buffer[DIMFILE];
-    char path[DIMFILE];
-    while(fgets(buffer,DIMFILE,fp)!=NULL){
+    char buffer[DIM];
+    char path[DIM];
+    while(fgets(buffer,DIM,fp)!=NULL){
         printf("\n");
         strcpy(path,"/bin/");
         int lenght=strlen(buffer);
@@ -20,7 +19,7 @@ int main(int argc,char** argv){
         for(int j=0;j<lenght;j++) if(buffer[j]==' ') i++;
         //I CREATE PARAM** THAT HAS I STRINGS, I BECAUSE I NEED I-1 PARAMETERS AND THE Ith ELEMENT OF THE VECTOR WILL BE (CHAR*) 0 TO PASS TO EXECV
         char** param=malloc(i*sizeof(char*));
-        for(int j=0;j<i-1;j++) param[j]=malloc(DIMFILE*sizeof(char));
+        for(int j=0;j<i-1;j++) param[j]=malloc(DIM*sizeof(char));
         //I SEARCH FOR THE PARAMETERS NEEDED AND I SAVE THEM IN THE DYNAMIC ALLOCATED PARAM**
         while(l<(i-1) && j<lenght){
             if(buffer[j]==' '){
@@ -42,8 +41,10 @@ int main(int argc,char** argv){
             else execl(path,param[0],(char*) 0);
         }
         wait(NULL);
+        sleep(3);
         for(int j=0;j<i-1;j++) free(param[j]);
         free(param);
     }
+    fclose(fp);
     exit(0);
 }
