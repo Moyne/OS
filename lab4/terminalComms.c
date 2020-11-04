@@ -10,16 +10,16 @@ int main(int argc,char** argv){
     pid_t pid;
     fp=fopen(argv[1],"r");
     char buffer[DIM];
-    char path[DIM];
+    // WITH EXECV I NEED THE PATH char path[DIM];
     while(fgets(buffer,DIM,fp)!=NULL){
         printf("\n");
-        strcpy(path,"/bin/");
+        // WITH EXECV I NEED THE PATH strcpy(path,"/bin/");
         int lenght=strlen(buffer);
         int i=1,l=0,h=0,j=0;
         for(int j=0;j<lenght;j++) if(buffer[j]==' ') i++;
         //I CREATE PARAM** THAT HAS I STRINGS, I BECAUSE I NEED I-1 PARAMETERS AND THE Ith ELEMENT OF THE VECTOR WILL BE (CHAR*) 0 TO PASS TO EXECV
         char** param=malloc(i*sizeof(char*));
-        for(int j=0;j<i-1;j++) param[j]=malloc(DIM*sizeof(char));
+        for(int j=0;j<i-1;j++)  param[j]=malloc(DIM*sizeof(char));
         //I SEARCH FOR THE PARAMETERS NEEDED AND I SAVE THEM IN THE DYNAMIC ALLOCATED PARAM**
         while(l<(i-1) && j<lenght){
             if(buffer[j]==' '){
@@ -33,13 +33,11 @@ int main(int argc,char** argv){
             }
             j++;
         }
-        strcat(path,param[0]);
+        param[i-1]=(char*)0;
+        // WITH EXECV I NEED THE PATH strcat(path,param[0]);
         printf("\tCommand :%s",buffer);
         pid=fork();
-        if(!pid){
-            if(i>2) execv(path,param);
-            else execl(path,param[0],(char*) 0);
-        }
+        if(!pid)    execvp(param[0],param); //EXECVP SO I CAN CALL ALSO NEOFETCH AND OTHER PROGRAMS NOT IN /BIN/, OTHERWISE EXECV(PATH,PARAM[0],PARAM);
         wait(NULL);
         sleep(3);
         for(int j=0;j<i-1;j++) free(param[j]);
