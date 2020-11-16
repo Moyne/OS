@@ -61,7 +61,7 @@ int main(int argc,char** argv){
         write(fp,&z,sizeof(int));
         write(fp,&x,sizeof(x));
     }
-    printf("File prima del bubble sort\n");
+    printf("File before the bubble sort\n");
     lseek(fp,0,SEEK_SET);
     for(int i=0;i<n;i++){
         read(fp,&x,sizeof(int));
@@ -69,8 +69,8 @@ int main(int argc,char** argv){
         printf("%d ",x);
     }
     printf("\n");
+    childsPids=malloc((n-1)*(sizeof(pid_t)));
     for(int i=0;i<n-1;i++){
-        childsPids=malloc((n-1-i)*(sizeof(pid_t)));
         lenght=n-1-i;
         counter=0;
         for(int j=0;j<n-1-i;j++){
@@ -84,9 +84,9 @@ int main(int argc,char** argv){
             write(fp,&z,sizeof(int));
             read(fp,&x,sizeof(int));
         }
-        free(childsPids);
     }
-    printf("File dopo il bubble sort\n");
+    free(childsPids);
+    printf("File after the bubble sort\n");
     lseek(fp,0,SEEK_SET);
     for(int i=0;i<n;i++){
         read(fp,&x,sizeof(int));
