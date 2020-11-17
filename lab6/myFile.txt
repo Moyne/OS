@@ -1,0 +1,1 @@
+Hi this is a text file made for the first exercise on the laboratory of OS, this exercise let use learn the use of the pipe in C using system call pipe, that create a channel of communication beetween the process that created it and his childs eventually, good job!
