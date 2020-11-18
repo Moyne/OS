@@ -28,6 +28,7 @@ void producer(int* fPipe){
     while(strcmp(buf,"end\n")){
         strcpy(buf,"");
         rd=read(0,&buf[0],DIM);
+        write(fPipe[1],&rd,sizeof(int));
         buf[rd]='\0';
         if(rd>0)    write(fPipe[1],&buf[0],rd);
         else break;
@@ -40,10 +41,11 @@ void consumer(int* fPipe){
     close(fPipe[1]);
     char buf[DIM];
     strcpy(buf,"");
-    int rd=1;
+    int rd=1,x;
     while(strcmp(buf,"END")!=0){
         strcpy(buf,"");
-        rd=read(fPipe[0],&buf[0],DIM);
+        read(fPipe[0],&x,sizeof(int));
+        rd=read(fPipe[0],&buf[0],x);
         if(rd>0){
             createString(buf,rd);
             printf("%s\n",buf);
@@ -73,4 +75,3 @@ int main(int argc,char** argv){
     }
     exit(1);
 }
-                
