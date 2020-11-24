@@ -29,9 +29,10 @@ int main(int argc,char** argv){
                     vet[j-1]=vet[j-1]+1;
                 }
             }
-            wait(NULL);
+            i++;
         }
     }
+    for(int j=0;j<i;j++)    wait(NULL);
     free(vet);
     exit(1);
 }
